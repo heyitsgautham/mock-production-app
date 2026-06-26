@@ -35,7 +35,7 @@ const MOCK_ORDERS = [
         status: "pending",
         total: 412.00,
         customer: {
-            id: "usr-1003",
+            id: 1003, // BUG: legacy migration stored this as a number, not string
             name: "Sam Wilson",
             // BUG: missing email field (new customer, incomplete profile)
             paymentMethods: [{ type: "visa", last4: "1234" }],
@@ -70,14 +70,16 @@ function searchOrdersByStatus(statusFilter) {
 
 /**
  * Export orders as CSV rows for download.
- * BUG: Accesses order.customer.email directly. Order "ord-8823" (Sam Wilson)
- * has no email field, so .trim() on undefined throws TypeError.
+ * BUG: Calls .toUpperCase() on order.customer.id assuming it's always a string.
+ * But order "ord-8823" has customer.id stored as a number (1003) in one edge case
+ * from a legacy data migration, causing TypeError: id.toUpperCase is not a function.
  */
 function exportOrdersCSV() {
-    const header = "id,date,customer,email,total,status";
+    const header = "id,date,customer,customerId,email,total,status";
     const rows = MOCK_ORDERS.map((order) => {
-        const email = (order.customer.email || '').trim();
-        return `${order.id},${order.date},${order.customer.name},${email},${order.total},${order.status}`;
+        const custId = order.customer.id.toUpperCase();
+        const email = order.customer.email || "N/A";
+        return `${order.id},${order.date},${order.customer.name},${custId},${email},${order.total},${order.status}`;
     });
     return [header, ...rows].join("\n");
 }
