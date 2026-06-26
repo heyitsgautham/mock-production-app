@@ -76,7 +76,7 @@ function searchOrdersByStatus(statusFilter) {
 function exportOrdersCSV() {
     const header = "id,date,customer,email,total,status";
     const rows = MOCK_ORDERS.map((order) => {
-        const email = order.customer.email.trim();
+        const email = (order.customer.email || '').trim();
         return `${order.id},${order.date},${order.customer.name},${email},${order.total},${order.status}`;
     });
     return [header, ...rows].join("\n");
