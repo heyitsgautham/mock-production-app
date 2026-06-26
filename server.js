@@ -20,7 +20,7 @@ function logError(err) {
  */
 function readUserId() {
     const user = null; // simulated: lookup miss returns null
-    return user.profile.id; // TypeError: Cannot read properties of null
+    return user?.profile?.id ?? null;
 }
 
 /**
