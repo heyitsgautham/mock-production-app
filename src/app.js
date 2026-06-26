@@ -7,6 +7,7 @@ const morgan = require("morgan");
 
 const orderRoutes = require("./routes/orders");
 const userRoutes = require("./routes/users");
+const reportRoutes = require("./routes/reports");
 const errorLogRoutes = require("./routes/errorLog");
 const { errorHandler } = require("./middleware/errorHandler");
 
@@ -27,6 +28,7 @@ app.get("/health", (_req, res) => {
 // Routes
 app.use("/api/orders", orderRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/reports", reportRoutes);
 app.use("/api/log-error", errorLogRoutes);
 
 // Centralized error handler — writes [ERROR] to log file
