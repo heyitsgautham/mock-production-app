@@ -1,19 +1,17 @@
 {
-    "name": "mock-production-app",
-    "version": "1.0.0",
-    "description": "A deliberately buggy production app that throws codebase-related errors. Target for the Auto-Triage Agent.",
-    "main": "server.js",
+    "name": "orderflow-api",
+    "version": "2.1.0",
+    "description": "OrderFlow Commerce API — backend services for order management",
+    "main": "src/index.js",
     "scripts": {
-        "start": "node server.js",
-        "dev": "node --watch server.js"
+        "start": "node src/index.js",
+        "dev": "nodemon src/index.js"
     },
-    "keywords": [
-        "mock",
-        "auto-triage",
-        "hackathon"
-    ],
-    "license": "MIT",
     "dependencies": {
-        "express": "^4.21.0"
+        "cors": "^2.8.5",
+        "express": "^4.18.2",
+        "helmet": "^7.1.0",
+        "morgan": "^1.10.0",
+        "uuid": "^9.0.0"
     }
 }
