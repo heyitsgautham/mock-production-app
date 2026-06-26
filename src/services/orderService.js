@@ -57,7 +57,7 @@ function fetchRecentOrders() {
         total: order.total,
         customerName: order.customer.name,
         // BUG: TypeError when paymentMethods is null
-        cardLast4: order.customer.paymentMethods[0].last4,
+        cardLast4: order.customer.paymentMethods?.[0]?.last4 ?? null,
     }));
 }
 
