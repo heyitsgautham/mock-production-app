@@ -3,7 +3,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const ERROR_LOG_PATH = process.env.ERROR_LOG_PATH || "/var/log/mock-app-error.log";
+const LOG_PATH = process.env.ERROR_LOG_PATH || "/var/log/mock-app-error.log";
 
 /**
  * Writes an error in the exact format CloudWatch multiline pattern expects:
@@ -20,7 +20,7 @@ function logError(err) {
     const logEntry = `[ERROR] ${err.message}\n${stackBody}\n`;
 
     // Write to the log file that CloudWatch Agent watches
-    fs.appendFileSync(ERROR_LOG_PATH, logEntry);
+    fs.appendFileSync(LOG_PATH, logEntry);
 
     // Also write to stderr for local debugging
     process.stderr.write(logEntry);
@@ -28,9 +28,18 @@ function logError(err) {
 
 function info(message) {
     const timestamp = new Date().toISOString();
-    process.stdout.write(`[${timestamp}] INFO: ${message}\n`);
+    const logEntry = `[INFO] ${timestamp} ${message}\n`;
+    fs.appendFileSync(LOG_PATH, logEntry);
+    process.stdout.write(logEntry);
+}
+
+function warn(message) {
+    const timestamp = new Date().toISOString();
+    const logEntry = `[WARN] ${timestamp} ${message}\n`;
+    fs.appendFileSync(LOG_PATH, logEntry);
+    process.stdout.write(logEntry);
 }
 
 module.exports = {
-    logger: { error: logError, info },
+    logger: { error: logError, info, warn },
 };
