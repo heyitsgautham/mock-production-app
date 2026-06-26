@@ -3,22 +3,29 @@
 const express = require("express");
 const router = express.Router();
 const { getUserProfile } = require("../services/userService");
+const { logger } = require("../utils/logger");
 
 /**
  * GET /api/users/:id/profile
  * Fetches user profile data.
- * Works correctly — returns user data for the frontend.
  */
 router.get("/:id/profile", (req, res) => {
+    logger.info(`GET /api/users/${req.params.id}/profile — fetching user profile`);
     const profile = getUserProfile(req.params.id);
+    if (profile) {
+        logger.info(`GET /api/users/${req.params.id}/profile — found user: ${profile.name}`);
+    } else {
+        logger.warn(`GET /api/users/${req.params.id}/profile — user not found`);
+    }
     res.json({ success: true, data: profile });
 });
 
 /**
  * GET /api/users
- * Lists all users — works fine.
+ * Lists all users.
  */
 router.get("/", (_req, res) => {
+    logger.info("GET /api/users — listing all users");
     res.json({
         success: true,
         data: [

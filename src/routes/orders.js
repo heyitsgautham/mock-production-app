@@ -3,16 +3,17 @@
 const express = require("express");
 const router = express.Router();
 const { fetchRecentOrders } = require("../services/orderService");
+const { logger } = require("../utils/logger");
 
 /**
  * GET /api/orders
  * Fetches recent orders for the dashboard.
- * BUG: orderService.fetchRecentOrders has a null-reference issue
- * when a customer record is missing payment metadata.
  */
 router.get("/", (req, res, next) => {
+    logger.info("GET /api/orders — fetching recent orders");
     try {
         const orders = fetchRecentOrders();
+        logger.info(`GET /api/orders — returned ${orders.length} orders`);
         res.json({ success: true, data: orders });
     } catch (err) {
         next(err);
