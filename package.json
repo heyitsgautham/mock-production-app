@@ -1,0 +1,19 @@
+{
+    "name": "mock-production-app",
+    "version": "1.0.0",
+    "description": "A deliberately buggy production app that throws codebase-related errors. Target for the Auto-Triage Agent.",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "node --watch server.js"
+    },
+    "keywords": [
+        "mock",
+        "auto-triage",
+        "hackathon"
+    ],
+    "license": "MIT",
+    "dependencies": {
+        "express": "^4.21.0"
+    }
+}
