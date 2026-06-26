@@ -33,9 +33,8 @@ function getOrdersForWeek(weekKey) {
  * BUG: Does not guard against undefined return from getOrdersForWeek.
  */
 function generateWeeklySummary(weekKey) {
-    const orders = getOrdersForWeek(weekKey);
+    const orders = getOrdersForWeek(weekKey) || [];
 
-    // BUG: TypeError when orders is undefined (week not found)
     const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
     const orderCount = orders.length;
 
